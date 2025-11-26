@@ -153,8 +153,8 @@
 
         /* Category Filter */
         .filter-section {
-            padding: 8rem 5rem 2rem;
-            max-width: 1600px;
+            padding: 6rem 8rem 1.5rem;
+            max-width: 1800px;
             margin: 0 auto;
         }
 
@@ -193,12 +193,12 @@
 
         /* Video Grid */
         .video-grid {
-            padding: 1rem 5rem 6rem;
-            max-width: 1600px;
+            padding: 1.5rem 8rem 6rem;
+            max-width: 1800px;
             margin: 0 auto;
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-            gap: 1.5rem;
+            gap: 2rem;
         }
 
         .video-card {
@@ -325,7 +325,7 @@
         .detail-page {
             display: none;
             min-height: 100vh;
-            padding-top: 80px;
+            padding-top: 100px;
         }
 
         .detail-page.active {
@@ -333,9 +333,9 @@
         }
 
         .detail-content {
-            max-width: 1100px;
+            max-width: 1200px;
             margin: 0 auto;
-            padding: 2rem 3rem 4rem;
+            padding: 2rem 4rem 4rem;
         }
 
         .back-button {
@@ -361,6 +361,11 @@
             color: var(--text-primary);
         }
 
+        .detail-video-wrapper {
+            padding: 0 6rem;
+            margin-bottom: 2rem;
+        }
+
         .detail-video {
             width: 100%;
             aspect-ratio: 16/9;
@@ -372,7 +377,7 @@
             display: flex;
             justify-content: space-between;
             align-items: flex-start;
-            margin-top: 1.5rem;
+            padding: 0 6rem;
             margin-bottom: 2rem;
             gap: 1.5rem;
         }
@@ -416,8 +421,8 @@
 
         .detail-gallery {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-            gap: 12px;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 16px;
             width: 100%;
         }
 
@@ -429,7 +434,6 @@
             border-radius: 8px;
             overflow: hidden;
             background: var(--bg-card);
-            aspect-ratio: auto;
         }
 
         .detail-gallery-item img,
@@ -578,12 +582,25 @@
             }
 
             .filter-section {
-                padding: 7rem 4rem 1.5rem;
+                padding: 5.5rem 6rem 1.25rem;
             }
 
             .video-grid {
-                padding: 1rem 4rem 5rem;
+                padding: 1.25rem 6rem 5rem;
                 grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+                gap: 1.5rem;
+            }
+
+            .detail-content {
+                padding: 2rem 3rem 4rem;
+            }
+
+            .detail-video-wrapper {
+                padding: 0 4rem;
+            }
+
+            .detail-info {
+                padding: 0 4rem;
             }
         }
 
@@ -593,16 +610,29 @@
             }
 
             .filter-section {
-                padding: 6rem 3rem 1.5rem;
+                padding: 5rem 4rem 1rem;
             }
 
             .video-grid {
-                padding: 1rem 3rem 4rem;
+                padding: 1rem 4rem 4rem;
                 grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+                gap: 1.25rem;
+            }
+
+            .detail-content {
+                padding: 2rem 2.5rem 4rem;
+            }
+
+            .detail-video-wrapper {
+                padding: 0 2rem;
+            }
+
+            .detail-info {
+                padding: 0 2rem;
             }
 
             .detail-gallery {
-                grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+                gap: 12px;
             }
         }
 
@@ -612,7 +642,7 @@
             }
 
             header {
-                padding: 1rem 1.5rem;
+                padding: 1rem 2rem;
             }
 
             nav {
@@ -624,7 +654,7 @@
             }
 
             .filter-section {
-                padding: 5rem 2rem 1rem;
+                padding: 4.5rem 2.5rem 1rem;
             }
 
             .filter-container {
@@ -632,13 +662,13 @@
             }
 
             .video-grid {
-                padding: 1rem 2rem 4rem;
+                padding: 1rem 2.5rem 4rem;
                 grid-template-columns: repeat(2, 1fr);
                 gap: 1rem;
             }
 
             footer {
-                padding: 3rem 2rem;
+                padding: 3rem 2.5rem;
             }
 
             .footer-content {
@@ -648,11 +678,15 @@
             }
 
             .detail-page {
-                padding-top: 60px;
+                padding-top: 80px;
             }
 
             .detail-content {
                 padding: 1.5rem 2rem;
+            }
+
+            .detail-video-wrapper {
+                padding: 0;
             }
 
             .detail-video {
@@ -662,6 +696,7 @@
             .detail-info {
                 flex-direction: column;
                 gap: 1rem;
+                padding: 0;
             }
 
             .detail-gallery {
@@ -684,11 +719,11 @@
             }
 
             header {
-                padding: 0.75rem 1.25rem;
+                padding: 0.75rem 1.5rem;
             }
 
             .filter-section {
-                padding: 4.5rem 1.25rem 0.75rem;
+                padding: 4rem 1.5rem 0.75rem;
             }
 
             .filter-container {
@@ -696,17 +731,21 @@
             }
 
             .video-grid {
-                padding: 0.5rem 1.25rem 3rem;
+                padding: 0.75rem 1.5rem 3rem;
                 grid-template-columns: 1fr;
-                gap: 1rem;
+                gap: 1.25rem;
             }
 
             .video-card-info {
                 padding: 0.75rem 0.125rem;
             }
 
+            .detail-page {
+                padding-top: 70px;
+            }
+
             .detail-content {
-                padding: 1rem 1.25rem;
+                padding: 1.25rem 1.5rem;
             }
 
             .detail-gallery {
@@ -714,7 +753,7 @@
             }
 
             footer {
-                padding: 2rem 1.25rem;
+                padding: 2rem 1.5rem;
             }
         }
     </style>
@@ -733,7 +772,7 @@
         <section class="hero">
         </section>
 
-        <section class="filter-section" id="filterSection">
+        <section class="filter-section">
             <div class="filter-container" id="filterContainer">
                 <button class="filter-btn active" data-filter="all">All Works</button>
             </div>
@@ -767,7 +806,9 @@
                 </svg>
                 <span>Back</span>
             </button>
-            <video class="detail-video" id="detailVideo" controls></video>
+            <div class="detail-video-wrapper">
+                <video class="detail-video" id="detailVideo" controls></video>
+            </div>
             <div class="detail-info">
                 <div class="detail-info-left">
                     <h3 class="detail-title" id="detailTitle"></h3>
@@ -797,7 +838,6 @@
         // DOM Elements
         const videoGrid = document.getElementById('videoGrid');
         const filterContainer = document.getElementById('filterContainer');
-        const filterSection = document.getElementById('filterSection');
         const mainContent = document.querySelector('main');
         const mainFooter = document.getElementById('mainFooter');
         const detailPage = document.getElementById('detailPage');
@@ -1122,7 +1162,6 @@
             // ページ切り替え
             mainContent.style.display = 'none';
             mainFooter.style.display = 'none';
-            filterSection.style.display = 'none';
             detailPage.classList.add('active');
             window.scrollTo(0, 0);
         }
@@ -1131,7 +1170,6 @@
             detailPage.classList.remove('active');
             mainContent.style.display = '';
             mainFooter.style.display = '';
-            filterSection.style.display = '';
             detailVideo.pause();
             detailVideo.src = '';
             
