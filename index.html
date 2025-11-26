@@ -202,9 +202,8 @@
 
         .video-card {
             position: relative;
-            aspect-ratio: 16/9;
             background: var(--bg-card);
-            border-radius: 4px;
+            border-radius: 12px;
             overflow: hidden;
             cursor: pointer;
             opacity: 0;
@@ -212,6 +211,12 @@
             animation: fadeUp 0.8s var(--transition-smooth) forwards;
             will-change: transform;
             contain: layout style paint;
+        }
+
+        .video-card .main-media {
+            aspect-ratio: 16/9;
+            position: relative;
+            overflow: hidden;
         }
 
         .video-card.hidden {
@@ -265,29 +270,6 @@
             opacity: 1;
         }
 
-        .video-title {
-            font-family: 'Cormorant Garamond', serif;
-            font-size: 1.375rem;
-            font-weight: 400;
-            color: #ffffff;
-            margin-bottom: 0.25rem;
-            letter-spacing: 0.01em;
-        }
-
-        .video-meta {
-            display: flex;
-            align-items: center;
-            gap: 0.75rem;
-        }
-
-        .video-category {
-            font-size: 0.6875rem;
-            color: rgba(255, 255, 255, 0.7);
-            text-transform: uppercase;
-            letter-spacing: 0.1em;
-            font-weight: 300;
-        }
-
         /* Play indicator */
         .play-indicator {
             position: absolute;
@@ -315,6 +297,62 @@
             height: 18px;
             fill: var(--text-primary);
             margin-left: 2px;
+        }
+
+        .video-title {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1.375rem;
+            font-weight: 400;
+            color: #ffffff;
+            margin-bottom: 0.25rem;
+            letter-spacing: 0.01em;
+        }
+
+        .video-meta {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .video-category {
+            font-size: 0.6875rem;
+            color: rgba(255, 255, 255, 0.7);
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            font-weight: 300;
+        }
+
+        /* Gallery Grid */
+        .gallery-grid {
+            display: none;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 4px;
+            padding: 4px;
+            background: var(--bg-secondary);
+        }
+
+        .video-card:hover .gallery-grid {
+            display: grid;
+        }
+
+        .gallery-item {
+            aspect-ratio: 1;
+            overflow: hidden;
+            border-radius: 8px;
+            background: var(--bg-card);
+        }
+
+        .gallery-item img,
+        .gallery-item video {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.3s var(--transition-smooth);
+        }
+
+        .gallery-item:hover img,
+        .gallery-item:hover video {
+            transform: scale(1.05);
         }
 
         /* Loading State */
@@ -424,7 +462,7 @@
         .modal-video {
             width: 100%;
             aspect-ratio: 16/9;
-            border-radius: 4px;
+            border-radius: 12px;
             background: var(--bg-card);
         }
 
@@ -759,9 +797,6 @@
 
         // Fetch data from Google Apps Script
         async function fetchSpreadsheetData() {
-            console.log('📡 GASからデータ取得中...');
-            console.log('URL:', GAS_WEB_APP_URL);
-            
             try {
                 const response = await fetch(GAS_WEB_APP_URL);
                 
@@ -770,14 +805,11 @@
                 }
                 
                 const data = await response.json();
-                console.log('📄 取得したデータ:', data);
                 
                 return parseGASData(data);
             } catch (error) {
-                console.error('Error fetching data, using fallback:', error);
                 // フォールバック：GASにアクセスできない場合はテストデータを使用
-                const fallbackData = [{"name":"V.Doc","video_url":"https://dl.dropboxusercontent.com/scl/fi/zfkmohimfpsi8v624bpke/V.Doc_FIX.mp4?rlkey=35wot7mbi9767gdqza315k5tu","description":"モーショングラフィック","category":"motion graphics","tags":"aaa"}];
-                console.log('📄 フォールバックデータを使用:', fallbackData);
+                const fallbackData = [{"name":"V.Doc","video_url":"https://dl.dropboxusercontent.com/scl/fi/zfkmohimfpsi8v624bpke/V.Doc_FIX.mp4?rlkey=35wot7mbi9767gdqza315k5tu","description":"モーショングラフィック","category":"motion graphics","tags":"aaa","gallery":""}];
                 return parseGASData(fallbackData);
             }
         }
@@ -787,6 +819,18 @@
             const parsedVideos = [];
             
             data.forEach((row, index) => {
+                // gallery列をパース（カンマ区切りのURLリスト）
+                let galleryItems = [];
+                if (row.gallery) {
+                    galleryItems = row.gallery.split(',').map(url => {
+                        const trimmedUrl = url.trim();
+                        return {
+                            url: convertDropboxUrl(trimmedUrl),
+                            type: getMediaType(trimmedUrl)
+                        };
+                    }).filter(item => item.url);
+                }
+                
                 const video = {
                     id: index + 1,
                     name: row.name || '',
@@ -794,7 +838,8 @@
                     thumbnail: convertDropboxUrl(row.thumbnail || ''),
                     description: row.description || '',
                     category: row.category || 'Other',
-                    tags: row.tags ? row.tags.split(',').map(t => t.trim()) : []
+                    tags: row.tags ? row.tags.split(',').map(t => t.trim()) : [],
+                    gallery: galleryItems
                 };
                 
                 if (video.name && video.video_url) {
@@ -806,6 +851,18 @@
             });
             
             return parsedVideos;
+        }
+        
+        // ファイルの種類を判定
+        function getMediaType(url) {
+            const lower = url.toLowerCase();
+            if (lower.includes('.mp4') || lower.includes('.webm') || lower.includes('.mov')) {
+                return 'video';
+            } else if (lower.includes('.gif')) {
+                return 'gif';
+            } else {
+                return 'image';
+            }
         }
 
         // Convert Dropbox share link to direct download/stream link
@@ -880,54 +937,129 @@
                        <video data-src="${video.video_url}" muted loop playsinline preload="none" style="display:none;"></video>`
                     : `<video data-src="${video.video_url}" muted loop playsinline preload="none"></video>`;
                 
+                // ギャラリーグリッドを生成
+                let galleryHTML = '';
+                if (video.gallery && video.gallery.length > 0) {
+                    const galleryItems = video.gallery.map(item => {
+                        if (item.type === 'video') {
+                            return `<div class="gallery-item">
+                                <video data-src="${item.url}" muted loop playsinline preload="none"></video>
+                            </div>`;
+                        } else {
+                            return `<div class="gallery-item">
+                                <img data-src="${item.url}" src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1 1'%3E%3Crect fill='%23f2f2f2' width='1' height='1'/%3E%3C/svg%3E" alt="">
+                            </div>`;
+                        }
+                    }).join('');
+                    galleryHTML = `<div class="gallery-grid">${galleryItems}</div>`;
+                }
+                
                 card.innerHTML = `
-                    ${mediaContent}
-                    <div class="video-overlay"></div>
-                    <div class="play-indicator">
-                        <svg viewBox="0 0 24 24">
-                            <polygon points="5,3 19,12 5,21"/>
-                        </svg>
-                    </div>
-                    <div class="video-info">
-                        <h3 class="video-title">${video.name}</h3>
-                        <div class="video-meta">
-                            <span class="video-category">${video.category}</span>
+                    <div class="main-media">
+                        ${mediaContent}
+                        <div class="video-overlay"></div>
+                        <div class="play-indicator">
+                            <svg viewBox="0 0 24 24">
+                                <polygon points="5,3 19,12 5,21"/>
+                            </svg>
+                        </div>
+                        <div class="video-info">
+                            <h3 class="video-title">${video.name}</h3>
+                            <div class="video-meta">
+                                <span class="video-category">${video.category}</span>
+                            </div>
                         </div>
                     </div>
+                    ${galleryHTML}
                 `;
 
                 // Hover play/pause with lazy loading
-                const videoEl = card.querySelector('video');
-                const thumbnailEl = card.querySelector('.thumbnail');
+                const videoEl = card.querySelector('.main-media video');
+                const thumbnailEl = card.querySelector('.main-media .thumbnail');
+                const playIndicator = card.querySelector('.play-indicator');
+                const galleryGrid = card.querySelector('.gallery-grid');
                 let videoLoaded = false;
+                let galleryLoaded = false;
+                let isPlaying = false;
                 
                 card.addEventListener('mouseenter', () => {
-                    // 初回ホバー時のみ動画を読み込み
-                    if (!videoLoaded && videoEl.dataset.src) {
+                    // 初回ホバー時のみメイン動画を読み込み（再生はしない）
+                    if (!videoLoaded && videoEl && videoEl.dataset.src) {
                         videoEl.src = videoEl.dataset.src;
                         videoLoaded = true;
                     }
                     
-                    if (thumbnailEl) {
-                        thumbnailEl.style.display = 'none';
-                        videoEl.style.display = 'block';
+                    // ギャラリーアイテムを読み込み・再生
+                    if (galleryGrid && !galleryLoaded) {
+                        galleryGrid.querySelectorAll('img[data-src]').forEach(img => {
+                            img.src = img.dataset.src;
+                            img.removeAttribute('data-src');
+                        });
+                        galleryGrid.querySelectorAll('video[data-src]').forEach(vid => {
+                            vid.src = vid.dataset.src;
+                            vid.removeAttribute('data-src');
+                        });
+                        galleryLoaded = true;
                     }
-                    videoEl.play().catch(() => {});
+                    
+                    // ギャラリー内の動画を自動再生
+                    if (galleryGrid) {
+                        galleryGrid.querySelectorAll('video').forEach(vid => {
+                            vid.play().catch(() => {});
+                        });
+                    }
                 });
+                
                 card.addEventListener('mouseleave', () => {
-                    videoEl.pause();
-                    videoEl.currentTime = 0;
+                    // メイン動画を停止・リセット
+                    if (videoEl) {
+                        videoEl.pause();
+                        videoEl.currentTime = 0;
+                        isPlaying = false;
+                    }
                     if (thumbnailEl) {
                         thumbnailEl.style.display = 'block';
-                        videoEl.style.display = 'none';
+                        if (videoEl) videoEl.style.display = 'none';
+                    }
+                    if (playIndicator) {
+                        playIndicator.style.opacity = '';
+                    }
+                    
+                    // ギャラリー内の動画を停止
+                    if (galleryGrid) {
+                        galleryGrid.querySelectorAll('video').forEach(vid => {
+                            vid.pause();
+                            vid.currentTime = 0;
+                        });
                     }
                 });
 
-                // Click to open modal
-                card.addEventListener('click', () => openModal(video));
+                // メイン動画エリアをクリックで再生/一時停止
+                const mainMedia = card.querySelector('.main-media');
+                if (mainMedia) {
+                    mainMedia.addEventListener('click', (e) => {
+                        e.stopPropagation();
+                        
+                        if (!videoEl) return;
+                        
+                        if (isPlaying) {
+                            videoEl.pause();
+                            isPlaying = false;
+                            if (playIndicator) playIndicator.style.opacity = '1';
+                        } else {
+                            if (thumbnailEl) {
+                                thumbnailEl.style.display = 'none';
+                                videoEl.style.display = 'block';
+                            }
+                            videoEl.play().catch(() => {});
+                            isPlaying = true;
+                            if (playIndicator) playIndicator.style.opacity = '0';
+                        }
+                    });
+                }
 
                 // サムネイルの遅延読み込みを登録
-                const thumbImg = card.querySelector('.thumbnail');
+                const thumbImg = card.querySelector('.main-media .thumbnail');
                 if (thumbImg) {
                     imageObserver.observe(thumbImg);
                 }
@@ -1077,7 +1209,6 @@
                 renderFilters();
                 renderVideos();
             } catch (error) {
-                console.error('Error:', error);
                 showError(error);
             }
         }
