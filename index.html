@@ -1,0 +1,1112 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Portfolio | Video & Motion</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500&family=Outfit:wght@200;300;400&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-primary: #ffffff;
+            --bg-secondary: #f8f8f8;
+            --bg-card: #f2f2f2;
+            --text-primary: #1a1a1a;
+            --text-secondary: #666666;
+            --text-muted: #999999;
+            --accent: #1a1a1a;
+            --border: #e5e5e5;
+            --transition-smooth: cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Outfit', -apple-system, sans-serif;
+            font-weight: 300;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            line-height: 1.6;
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        /* Header */
+        header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 100;
+            padding: 1.5rem 3rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: rgba(255, 255, 255, 0.9);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+        }
+
+        .logo {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1.5rem;
+            font-weight: 300;
+            letter-spacing: 0.05em;
+            color: var(--text-primary);
+        }
+
+        .logo span {
+            color: var(--text-muted);
+        }
+
+        nav {
+            display: flex;
+            gap: 2.5rem;
+        }
+
+        nav a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-size: 0.8125rem;
+            font-weight: 300;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            transition: color 0.3s var(--transition-smooth);
+            position: relative;
+        }
+
+        nav a::after {
+            content: '';
+            position: absolute;
+            bottom: -4px;
+            left: 0;
+            width: 0;
+            height: 1px;
+            background: var(--text-primary);
+            transition: width 0.3s var(--transition-smooth);
+        }
+
+        nav a:hover {
+            color: var(--text-primary);
+        }
+
+        nav a:hover::after {
+            width: 100%;
+        }
+
+        nav a.active {
+            color: var(--text-primary);
+        }
+
+        /* Hero Section */
+        .hero {
+            padding: 14rem 3rem 6rem;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .hero-title {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: clamp(3.5rem, 10vw, 7rem);
+            font-weight: 300;
+            letter-spacing: -0.02em;
+            line-height: 1;
+            margin-bottom: 1.5rem;
+            opacity: 0;
+            transform: translateY(40px);
+            animation: fadeUp 1s var(--transition-smooth) 0.2s forwards;
+        }
+
+        .hero-title span {
+            display: block;
+            color: var(--text-muted);
+        }
+
+        .hero-subtitle {
+            font-size: 1rem;
+            font-weight: 300;
+            color: var(--text-secondary);
+            max-width: 400px;
+            letter-spacing: 0.02em;
+            opacity: 0;
+            transform: translateY(30px);
+            animation: fadeUp 1s var(--transition-smooth) 0.4s forwards;
+        }
+
+        @keyframes fadeUp {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Category Filter */
+        .filter-section {
+            padding: 0 3rem 3rem;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .filter-container {
+            display: flex;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+            opacity: 0;
+            animation: fadeUp 1s var(--transition-smooth) 0.6s forwards;
+        }
+
+        .filter-btn {
+            padding: 0.5rem 1.25rem;
+            background: transparent;
+            border: 1px solid var(--border);
+            border-radius: 100px;
+            color: var(--text-secondary);
+            font-family: 'Outfit', sans-serif;
+            font-size: 0.75rem;
+            font-weight: 300;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            cursor: pointer;
+            transition: all 0.3s var(--transition-smooth);
+        }
+
+        .filter-btn:hover {
+            border-color: var(--text-primary);
+            color: var(--text-primary);
+        }
+
+        .filter-btn.active {
+            background: var(--text-primary);
+            border-color: var(--text-primary);
+            color: var(--bg-primary);
+        }
+
+        /* Video Grid */
+        .video-grid {
+            padding: 2rem 3rem 6rem;
+            max-width: 1400px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(400px, 1fr));
+            gap: 2rem;
+        }
+
+        .video-card {
+            position: relative;
+            aspect-ratio: 16/9;
+            background: var(--bg-card);
+            border-radius: 4px;
+            overflow: hidden;
+            cursor: pointer;
+            opacity: 0;
+            transform: translateY(40px);
+            animation: fadeUp 0.8s var(--transition-smooth) forwards;
+        }
+
+        .video-card.hidden {
+            display: none;
+        }
+
+        .video-card video,
+        .video-card .thumbnail {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.6s var(--transition-smooth);
+        }
+
+        .video-card:hover video,
+        .video-card:hover .thumbnail {
+            transform: scale(1.03);
+        }
+
+        .video-overlay {
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(
+                to top,
+                rgba(0, 0, 0, 0.6) 0%,
+                rgba(0, 0, 0, 0) 50%
+            );
+            opacity: 0;
+            transition: opacity 0.4s var(--transition-smooth);
+        }
+
+        .video-card:hover .video-overlay {
+            opacity: 1;
+        }
+
+        .video-info {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            padding: 1.5rem;
+            transform: translateY(20px);
+            opacity: 0;
+            transition: all 0.4s var(--transition-smooth);
+        }
+
+        .video-card:hover .video-info {
+            transform: translateY(0);
+            opacity: 1;
+        }
+
+        .video-title {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1.375rem;
+            font-weight: 400;
+            color: #ffffff;
+            margin-bottom: 0.25rem;
+            letter-spacing: 0.01em;
+        }
+
+        .video-meta {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .video-category {
+            font-size: 0.6875rem;
+            color: rgba(255, 255, 255, 0.7);
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            font-weight: 300;
+        }
+
+        /* Play indicator */
+        .play-indicator {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) scale(0.8);
+            width: 56px;
+            height: 56px;
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            transition: all 0.4s var(--transition-smooth);
+        }
+
+        .video-card:hover .play-indicator {
+            opacity: 1;
+            transform: translate(-50%, -50%) scale(1);
+        }
+
+        .play-indicator svg {
+            width: 18px;
+            height: 18px;
+            fill: var(--text-primary);
+            margin-left: 2px;
+        }
+
+        /* Loading State */
+        .loading {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 6rem 2rem;
+            gap: 1.5rem;
+            grid-column: 1 / -1;
+        }
+
+        .loading-spinner {
+            width: 32px;
+            height: 32px;
+            border: 1px solid var(--border);
+            border-top-color: var(--text-primary);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        .loading-text {
+            color: var(--text-secondary);
+            font-size: 0.8125rem;
+            font-weight: 300;
+            letter-spacing: 0.05em;
+        }
+
+        /* Error State */
+        .error-state {
+            text-align: center;
+            padding: 6rem 2rem;
+        }
+
+        .error-state h3 {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1.5rem;
+            font-weight: 400;
+            margin-bottom: 1rem;
+        }
+
+        .error-state p {
+            color: var(--text-secondary);
+            margin-bottom: 2rem;
+            max-width: 500px;
+            margin-left: auto;
+            margin-right: auto;
+            font-weight: 300;
+        }
+
+        .error-state code {
+            display: block;
+            background: var(--bg-secondary);
+            padding: 1rem;
+            border-radius: 4px;
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            margin-top: 1rem;
+            word-break: break-all;
+        }
+
+        /* Modal */
+        .modal {
+            position: fixed;
+            inset: 0;
+            z-index: 200;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 2rem;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.4s var(--transition-smooth);
+        }
+
+        .modal.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .modal-backdrop {
+            position: absolute;
+            inset: 0;
+            background: rgba(255, 255, 255, 0.97);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+        }
+
+        .modal-content {
+            position: relative;
+            width: 100%;
+            max-width: 1100px;
+            max-height: 90vh;
+            transform: scale(0.98) translateY(20px);
+            transition: transform 0.4s var(--transition-smooth);
+        }
+
+        .modal.active .modal-content {
+            transform: scale(1) translateY(0);
+        }
+
+        .modal-video {
+            width: 100%;
+            aspect-ratio: 16/9;
+            border-radius: 4px;
+            background: var(--bg-card);
+        }
+
+        .modal-close {
+            position: absolute;
+            top: -3rem;
+            right: 0;
+            width: 40px;
+            height: 40px;
+            background: transparent;
+            border: 1px solid var(--border);
+            border-radius: 50%;
+            color: var(--text-primary);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s var(--transition-smooth);
+        }
+
+        .modal-close:hover {
+            background: var(--text-primary);
+            color: var(--bg-primary);
+            border-color: var(--text-primary);
+        }
+
+        .modal-details {
+            margin-top: 1.5rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+        }
+
+        .modal-title {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1.75rem;
+            font-weight: 400;
+            margin-bottom: 0.5rem;
+        }
+
+        .modal-description {
+            color: var(--text-secondary);
+            font-size: 0.9375rem;
+            font-weight: 300;
+            max-width: 600px;
+        }
+
+        .modal-tags {
+            display: flex;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+        }
+
+        .modal-tag {
+            padding: 0.5rem 1rem;
+            background: var(--bg-secondary);
+            border-radius: 100px;
+            font-size: 0.6875rem;
+            color: var(--text-secondary);
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            font-weight: 300;
+        }
+
+        /* Footer */
+        footer {
+            padding: 4rem 3rem;
+            border-top: 1px solid var(--border);
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .footer-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .footer-text {
+            color: var(--text-muted);
+            font-size: 0.75rem;
+            font-weight: 300;
+            letter-spacing: 0.05em;
+        }
+
+        .footer-links {
+            display: flex;
+            gap: 2rem;
+        }
+
+        .footer-links a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-size: 0.75rem;
+            font-weight: 300;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            transition: color 0.3s var(--transition-smooth);
+        }
+
+        .footer-links a:hover {
+            color: var(--text-primary);
+        }
+
+        /* Setup Guide */
+        .setup-guide {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        .setup-guide h2 {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1.75rem;
+            font-weight: 400;
+            margin-bottom: 2rem;
+        }
+
+        .setup-step {
+            background: var(--bg-secondary);
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .setup-step h4 {
+            font-size: 0.9375rem;
+            font-weight: 400;
+            margin-bottom: 0.75rem;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .setup-step h4 .step-number {
+            width: 24px;
+            height: 24px;
+            background: var(--text-primary);
+            color: var(--bg-primary);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.6875rem;
+            font-weight: 400;
+            flex-shrink: 0;
+        }
+
+        .setup-step p {
+            color: var(--text-secondary);
+            font-size: 0.8125rem;
+            font-weight: 300;
+            margin-left: 2.25rem;
+        }
+
+        .setup-step code {
+            background: var(--bg-primary);
+            padding: 0.25rem 0.5rem;
+            border-radius: 4px;
+            font-size: 0.75rem;
+        }
+
+        .spreadsheet-preview {
+            background: var(--bg-primary);
+            border-radius: 4px;
+            padding: 1rem;
+            margin-top: 1rem;
+            margin-left: 2.25rem;
+            overflow-x: auto;
+        }
+
+        .spreadsheet-preview table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.6875rem;
+        }
+
+        .spreadsheet-preview th,
+        .spreadsheet-preview td {
+            padding: 0.5rem;
+            text-align: left;
+            border: 1px solid var(--border);
+        }
+
+        .spreadsheet-preview th {
+            background: var(--bg-secondary);
+            color: var(--text-primary);
+            font-weight: 400;
+        }
+
+        .spreadsheet-preview td {
+            color: var(--text-secondary);
+            font-weight: 300;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            header {
+                padding: 1rem 1.5rem;
+            }
+
+            nav {
+                gap: 1.5rem;
+            }
+
+            nav a {
+                font-size: 0.75rem;
+            }
+
+            .hero {
+                padding: 10rem 1.5rem 4rem;
+            }
+
+            .filter-section {
+                padding: 0 1.5rem 2rem;
+            }
+
+            .video-grid {
+                padding: 1rem 1.5rem 4rem;
+                grid-template-columns: 1fr;
+                gap: 1.5rem;
+            }
+
+            footer {
+                padding: 3rem 1.5rem;
+            }
+
+            .footer-content {
+                flex-direction: column;
+                gap: 1.5rem;
+                text-align: center;
+            }
+
+            .modal-details {
+                flex-direction: column;
+                gap: 1rem;
+            }
+
+            .setup-guide {
+                padding: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="logo">Fukuda Shuki <span>/ Works</span></div>
+        <nav>
+            <a href="#" class="active">Works</a>
+            <a href="#">About</a>
+            <a href="#">Contact</a>
+        </nav>
+    </header>
+
+    <main>
+        <section class="hero">
+        </section>
+
+        <section class="filter-section">
+            <div class="filter-container" id="filterContainer">
+                <button class="filter-btn active" data-filter="all">All Works</button>
+            </div>
+        </section>
+
+        <section class="video-grid" id="videoGrid">
+            <div class="loading">
+                <div class="loading-spinner"></div>
+                <p class="loading-text">Loading videos from spreadsheet...</p>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="footer-content">
+            <p class="footer-text">© 2024 Studio. All rights reserved.</p>
+            <div class="footer-links">
+                <a href="#">Instagram</a>
+                <a href="#">Vimeo</a>
+                <a href="#">LinkedIn</a>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Modal -->
+    <div class="modal" id="videoModal">
+        <div class="modal-backdrop"></div>
+        <div class="modal-content">
+            <button class="modal-close">
+                <svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.5">
+                    <path d="M1 1L13 13M1 13L13 1"/>
+                </svg>
+            </button>
+            <video class="modal-video" id="modalVideo" controls></video>
+            <div class="modal-details">
+                <div>
+                    <h3 class="modal-title" id="modalTitle"></h3>
+                    <p class="modal-description" id="modalDescription"></p>
+                </div>
+                <div class="modal-tags" id="modalTags"></div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // ============================================================
+        // 設定: ここにGoogle Apps ScriptのウェブアプリURLを入力
+        // ============================================================
+        const GAS_WEB_APP_URL = 'https://script.google.com/macros/s/AKfycbw8RGHtva0QT5VJVDbxwTpdJbNj_gUYaOlLAJAfPDTW9gyAh2MNA1dIo4i_fEWbwrsl/exec';
+        
+        // ============================================================
+        // スプレッドシートの列構成:
+        // A列: name (動画の名前) ※必須
+        // B列: video_url (動画ファイルのURL) ※必須
+        // C列: description (説明)
+        // D列: category (カテゴリ - フィルター用)
+        // E列: tags (タグ - カンマ区切り)
+        // ============================================================
+
+        // DOM Elements
+        const videoGrid = document.getElementById('videoGrid');
+        const filterContainer = document.getElementById('filterContainer');
+        const modal = document.getElementById('videoModal');
+        const modalVideo = document.getElementById('modalVideo');
+        const modalTitle = document.getElementById('modalTitle');
+        const modalDescription = document.getElementById('modalDescription');
+        const modalTags = document.getElementById('modalTags');
+        const modalClose = document.querySelector('.modal-close');
+        const modalBackdrop = document.querySelector('.modal-backdrop');
+
+        let videos = [];
+        let categories = new Set(['all']);
+
+        // Fetch data from Google Apps Script
+        async function fetchSpreadsheetData() {
+            console.log('📡 GASからデータ取得中...');
+            console.log('URL:', GAS_WEB_APP_URL);
+            
+            try {
+                const response = await fetch(GAS_WEB_APP_URL);
+                
+                if (!response.ok) {
+                    throw new Error(`HTTP error: ${response.status}`);
+                }
+                
+                const data = await response.json();
+                console.log('📄 取得したデータ:', data);
+                
+                return parseGASData(data);
+            } catch (error) {
+                console.error('Error fetching data, using fallback:', error);
+                // フォールバック：GASにアクセスできない場合はテストデータを使用
+                const fallbackData = [{"name":"V.Doc","video_url":"https://www.dropbox.com/scl/fi/zfkmohimfpsi8v624bpke/V.Doc_FIX.mp4?rlkey=35wot7mbi9767gdqza315k5tu&dl=0","description":"モーショングラフィック","category":"motion graphics","tags":"aaa"}];
+                console.log('📄 フォールバックデータを使用:', fallbackData);
+                return parseGASData(fallbackData);
+            }
+        }
+
+        // Parse GAS data into video objects
+        function parseGASData(data) {
+            const parsedVideos = [];
+            
+            data.forEach((row, index) => {
+                const video = {
+                    id: index + 1,
+                    name: row.name || '',
+                    video_url: convertDropboxUrl(row.video_url || ''),
+                    thumbnail: convertDropboxUrl(row.thumbnail || ''),
+                    description: row.description || '',
+                    category: row.category || 'Other',
+                    tags: row.tags ? row.tags.split(',').map(t => t.trim()) : []
+                };
+                
+                if (video.name && video.video_url) {
+                    parsedVideos.push(video);
+                    if (video.category) {
+                        categories.add(video.category);
+                    }
+                }
+            });
+            
+            return parsedVideos;
+        }
+
+        // Convert Dropbox share link to direct download link
+        function convertDropboxUrl(url) {
+            if (!url) return url;
+            
+            // Convert dl=0 to dl=1 for direct download
+            if (url.includes('dropbox.com')) {
+                url = url.replace('dl=0', 'dl=1');
+                
+                // Also handle www.dropbox.com/s/ links (older format)
+                if (url.includes('www.dropbox.com/s/')) {
+                    url = url.replace('www.dropbox.com/s/', 'dl.dropboxusercontent.com/s/');
+                }
+            }
+            
+            return url;
+        }
+
+        // Render filter buttons
+        function renderFilters() {
+            filterContainer.innerHTML = '';
+            
+            const sortedCategories = ['all', ...Array.from(categories).filter(c => c !== 'all').sort()];
+            
+            sortedCategories.forEach(category => {
+                const btn = document.createElement('button');
+                btn.className = `filter-btn ${category === 'all' ? 'active' : ''}`;
+                btn.dataset.filter = category;
+                btn.textContent = category === 'all' ? 'All Works' : category;
+                btn.addEventListener('click', () => {
+                    document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+                    btn.classList.add('active');
+                    renderVideos(category);
+                });
+                filterContainer.appendChild(btn);
+            });
+        }
+
+        // Render video cards
+        function renderVideos(filter = 'all') {
+            videoGrid.innerHTML = '';
+            
+            const filteredVideos = filter === 'all' 
+                ? videos 
+                : videos.filter(v => v.category === filter);
+
+            if (filteredVideos.length === 0) {
+                videoGrid.innerHTML = `
+                    <div class="error-state" style="grid-column: 1 / -1;">
+                        <h3>動画が見つかりません</h3>
+                        <p>このカテゴリには動画がありません。</p>
+                    </div>
+                `;
+                return;
+            }
+
+            filteredVideos.forEach((video, index) => {
+                const card = document.createElement('div');
+                card.className = 'video-card';
+                card.style.animationDelay = `${0.1 + index * 0.1}s`;
+                
+                // サムネイルがある場合は画像を表示、なければ動画を表示
+                const mediaContent = video.thumbnail 
+                    ? `<img src="${video.thumbnail}" class="thumbnail" alt="${video.name}">
+                       <video src="${video.video_url}" muted loop preload="metadata" style="display:none;"></video>`
+                    : `<video src="${video.video_url}" muted loop preload="metadata"></video>`;
+                
+                card.innerHTML = `
+                    ${mediaContent}
+                    <div class="video-overlay"></div>
+                    <div class="play-indicator">
+                        <svg viewBox="0 0 24 24">
+                            <polygon points="5,3 19,12 5,21"/>
+                        </svg>
+                    </div>
+                    <div class="video-info">
+                        <h3 class="video-title">${video.name}</h3>
+                        <div class="video-meta">
+                            <span class="video-category">${video.category}</span>
+                        </div>
+                    </div>
+                `;
+
+                // Hover play/pause
+                const videoEl = card.querySelector('video');
+                const thumbnailEl = card.querySelector('.thumbnail');
+                
+                card.addEventListener('mouseenter', () => {
+                    if (thumbnailEl) {
+                        thumbnailEl.style.display = 'none';
+                        videoEl.style.display = 'block';
+                    }
+                    videoEl.play().catch(() => {});
+                });
+                card.addEventListener('mouseleave', () => {
+                    videoEl.pause();
+                    videoEl.currentTime = 0;
+                    if (thumbnailEl) {
+                        thumbnailEl.style.display = 'block';
+                        videoEl.style.display = 'none';
+                    }
+                });
+
+                // Click to open modal
+                card.addEventListener('click', () => openModal(video));
+
+                videoGrid.appendChild(card);
+            });
+        }
+
+        // Show setup guide
+        function showSetupGuide() {
+            videoGrid.innerHTML = `
+                <div class="setup-guide" style="grid-column: 1 / -1;">
+                    <h2>🎬 Google Apps Script 連携ガイド</h2>
+                    
+                    <div class="setup-step">
+                        <h4><span class="step-number">1</span>スプレッドシートを準備</h4>
+                        <p>スプレッドシートの1行目にヘッダーを設定：</p>
+                        <div class="spreadsheet-preview">
+                            <table>
+                                <thead>
+                                    <tr>
+                                        <th>A: name</th>
+                                        <th>B: video_url</th>
+                                        <th>C: description</th>
+                                        <th>D: category</th>
+                                        <th>E: tags</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>Brand Film</td>
+                                        <td>Dropboxリンク</td>
+                                        <td>企業ブランドフィルム</td>
+                                        <td>Film</td>
+                                        <td>Direction, Edit</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    
+                    <div class="setup-step">
+                        <h4><span class="step-number">2</span>Apps Scriptを開く</h4>
+                        <p>スプレッドシートで「拡張機能」→「Apps Script」をクリック</p>
+                    </div>
+                    
+                    <div class="setup-step">
+                        <h4><span class="step-number">3</span>スクリプトを貼り付け</h4>
+                        <p>以下のコードをコピーして貼り付け、保存（Ctrl+S）：</p>
+                        <pre style="background: var(--bg-primary); padding: 1rem; border-radius: 4px; font-size: 0.75rem; overflow-x: auto; margin-top: 0.5rem; margin-left: 2.25rem; color: var(--text-secondary);">function doGet() {
+  const sheet = SpreadsheetApp.getActiveSpreadsheet().getActiveSheet();
+  const data = sheet.getDataRange().getValues();
+  const headers = data[0];
+  const rows = data.slice(1);
+  
+  const result = rows.map(row => {
+    const obj = {};
+    headers.forEach((header, i) => {
+      obj[header] = row[i];
+    });
+    return obj;
+  });
+  
+  return ContentService
+    .createTextOutput(JSON.stringify(result))
+    .setMimeType(ContentService.MimeType.JSON);
+}</pre>
+                    </div>
+                    
+                    <div class="setup-step">
+                        <h4><span class="step-number">4</span>ウェブアプリとしてデプロイ</h4>
+                        <p>「デプロイ」→「新しいデプロイ」→ 種類「ウェブアプリ」を選択</p>
+                        <p style="margin-top: 0.5rem;">アクセスできるユーザー：「全員」に設定して「デプロイ」</p>
+                    </div>
+                    
+                    <div class="setup-step">
+                        <h4><span class="step-number">5</span>URLを設定</h4>
+                        <p>表示されたウェブアプリURLをコピーし、このHTMLの <code>GAS_WEB_APP_URL</code> に貼り付け</p>
+                    </div>
+                </div>
+            `;
+        }
+
+        // Show error state
+        function showError(error) {
+            videoGrid.innerHTML = `
+                <div class="error-state" style="grid-column: 1 / -1;">
+                    <h3>データの取得に失敗しました</h3>
+                    <p>Google Apps ScriptのウェブアプリURLが正しいことを確認してください。また、デプロイ時に「全員」がアクセスできる設定になっているか確認してください。</p>
+                    <code>Error: ${error.message}</code>
+                </div>
+            `;
+        }
+
+        // Modal functions
+        function openModal(video) {
+            modalVideo.src = video.video_url;
+            modalTitle.textContent = video.name;
+            modalDescription.textContent = video.description;
+            modalTags.innerHTML = video.tags.map(tag => 
+                `<span class="modal-tag">${tag}</span>`
+            ).join('');
+            modal.classList.add('active');
+            document.body.style.overflow = 'hidden';
+            modalVideo.play().catch(() => {});
+        }
+
+        function closeModal() {
+            modal.classList.remove('active');
+            document.body.style.overflow = '';
+            modalVideo.pause();
+            modalVideo.src = '';
+        }
+
+        modalClose.addEventListener('click', closeModal);
+        modalBackdrop.addEventListener('click', closeModal);
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') closeModal();
+        });
+
+        // Initialize
+        async function init() {
+            // Check if GAS URL is configured
+            if (GAS_WEB_APP_URL === 'YOUR_GAS_WEB_APP_URL_HERE') {
+                showSetupGuide();
+                return;
+            }
+            
+            try {
+                console.log('📡 スプレッドシートからデータ取得中...');
+                console.log('URL:', GAS_WEB_APP_URL);
+                
+                videos = await fetchSpreadsheetData();
+                
+                console.log('✅ 取得成功!');
+                console.log('動画数:', videos.length);
+                console.log('取得データ:', videos);
+                
+                // デバッグ情報を画面に表示
+                showDebugInfo(videos);
+                
+                renderFilters();
+                renderVideos();
+            } catch (error) {
+                console.error('❌ エラー:', error);
+                showError(error);
+            }
+        }
+        
+        // デバッグ情報を表示
+        function showDebugInfo(data) {
+            const debugDiv = document.createElement('div');
+            debugDiv.style.cssText = `
+                position: fixed;
+                bottom: 20px;
+                right: 20px;
+                background: #1a1a1a;
+                border: 1px solid #333;
+                border-radius: 8px;
+                padding: 16px;
+                max-width: 400px;
+                max-height: 300px;
+                overflow: auto;
+                font-size: 12px;
+                z-index: 9999;
+                box-shadow: 0 4px 20px rgba(0,0,0,0.5);
+            `;
+            
+            let html = `<div style="color: #4ade80; font-weight: bold; margin-bottom: 8px;">📊 デバッグ情報</div>`;
+            html += `<div style="color: #888; margin-bottom: 8px;">取得した動画: ${data.length}件</div>`;
+            
+            if (data.length === 0) {
+                html += `<div style="color: #f87171;">データが見つかりません。スプレッドシートの設定を確認してください。</div>`;
+            } else {
+                data.forEach((video, i) => {
+                    html += `
+                        <div style="background: #222; padding: 8px; border-radius: 4px; margin-bottom: 8px;">
+                            <div style="color: #fff; font-weight: 500;">${i + 1}. ${video.name || '(名前なし)'}</div>
+                            <div style="color: #888; font-size: 11px; word-break: break-all;">URL: ${video.video_url ? video.video_url.substring(0, 50) + '...' : '(なし)'}</div>
+                            <div style="color: #888; font-size: 11px;">説明: ${video.description || '(なし)'}</div>
+                            <div style="color: #888; font-size: 11px;">カテゴリ: ${video.category || '(なし)'}</div>
+                        </div>
+                    `;
+                });
+            }
+            
+            html += `<button onclick="this.parentElement.remove()" style="
+                margin-top: 8px;
+                padding: 6px 12px;
+                background: #333;
+                border: none;
+                border-radius: 4px;
+                color: #fff;
+                cursor: pointer;
+                font-size: 11px;
+            ">閉じる</button>`;
+            
+            debugDiv.innerHTML = html;
+            document.body.appendChild(debugDiv);
+        }
+
+        init();
+    </script>
+</body>
+</html>
