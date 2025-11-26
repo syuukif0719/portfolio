@@ -424,6 +424,7 @@
             grid-template-columns: repeat(2, 1fr);
             gap: 16px;
             width: 100%;
+            padding: 0 12rem;
         }
 
         .detail-gallery:empty {
@@ -602,6 +603,10 @@
             .detail-info {
                 padding: 0 8rem;
             }
+
+            .detail-gallery {
+                padding: 0 8rem;
+            }
         }
 
         @media (max-width: 1024px) {
@@ -632,6 +637,7 @@
             }
 
             .detail-gallery {
+                padding: 0 4rem;
                 gap: 12px;
             }
         }
@@ -700,7 +706,7 @@
             }
 
             .detail-gallery {
-                grid-template-columns: repeat(2, 1fr);
+                padding: 0 1rem;
                 gap: 8px;
             }
 
@@ -757,7 +763,7 @@
             }
 
             .detail-gallery {
-                grid-template-columns: 1fr;
+                padding: 0;
             }
 
             footer {
