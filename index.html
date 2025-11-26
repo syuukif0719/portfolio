@@ -772,7 +772,7 @@
             } catch (error) {
                 console.error('Error fetching data, using fallback:', error);
                 // フォールバック：GASにアクセスできない場合はテストデータを使用
-                const fallbackData = [{"name":"V.Doc","video_url":"https://www.dropbox.com/scl/fi/zfkmohimfpsi8v624bpke/V.Doc_FIX.mp4?rlkey=35wot7mbi9767gdqza315k5tu&dl=0","description":"モーショングラフィック","category":"motion graphics","tags":"aaa"}];
+                const fallbackData = [{"name":"V.Doc","video_url":"https://dl.dropboxusercontent.com/scl/fi/zfkmohimfpsi8v624bpke/V.Doc_FIX.mp4?rlkey=35wot7mbi9767gdqza315k5tu","description":"モーショングラフィック","category":"motion graphics","tags":"aaa"}];
                 console.log('📄 フォールバックデータを使用:', fallbackData);
                 return parseGASData(fallbackData);
             }
@@ -804,18 +804,24 @@
             return parsedVideos;
         }
 
-        // Convert Dropbox share link to direct download link
+        // Convert Dropbox share link to direct download/stream link
         function convertDropboxUrl(url) {
             if (!url) return url;
             
-            // Convert dl=0 to dl=1 for direct download
             if (url.includes('dropbox.com')) {
-                url = url.replace('dl=0', 'dl=1');
+                // Remove any existing dl parameter and add dl=1
+                url = url.replace(/[?&]dl=[01]/, '');
                 
-                // Also handle www.dropbox.com/s/ links (older format)
-                if (url.includes('www.dropbox.com/s/')) {
-                    url = url.replace('www.dropbox.com/s/', 'dl.dropboxusercontent.com/s/');
+                // Add dl=1 for direct access
+                if (url.includes('?')) {
+                    url = url + '&dl=1';
+                } else {
+                    url = url + '?dl=1';
                 }
+                
+                // Convert to raw content URL for better streaming
+                url = url.replace('www.dropbox.com', 'dl.dropboxusercontent.com');
+                url = url.replace('&dl=1', '').replace('?dl=1', '');
             }
             
             return url;
@@ -867,8 +873,8 @@
                 // サムネイルがある場合は画像を表示、なければ動画を表示
                 const mediaContent = video.thumbnail 
                     ? `<img src="${video.thumbnail}" class="thumbnail" alt="${video.name}">
-                       <video src="${video.video_url}" muted loop preload="metadata" style="display:none;"></video>`
-                    : `<video src="${video.video_url}" muted loop preload="metadata"></video>`;
+                       <video src="${video.video_url}" muted loop playsinline preload="auto" style="display:none;"></video>`
+                    : `<video src="${video.video_url}" muted loop playsinline preload="auto"></video>`;
                 
                 card.innerHTML = `
                     ${mediaContent}
