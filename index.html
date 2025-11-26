@@ -318,89 +318,89 @@
             word-break: break-all;
         }
 
-        /* Modal */
-        .modal {
-            position: fixed;
-            inset: 0;
-            z-index: 200;
-            display: flex;
-            align-items: flex-start;
-            justify-content: center;
-            padding: 2rem;
-            opacity: 0;
-            visibility: hidden;
-            transition: all 0.4s var(--transition-smooth);
-            overflow-y: auto;
+        /* Detail Page */
+        .detail-page {
+            display: none;
+            min-height: 100vh;
+            padding-top: 80px;
         }
 
-        .modal.active {
-            opacity: 1;
-            visibility: visible;
+        .detail-page.active {
+            display: block;
         }
 
-        .modal-backdrop {
-            position: fixed;
-            inset: 0;
-            background: rgba(255, 255, 255, 0.97);
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
-        }
-
-        .modal-content {
-            position: relative;
-            width: 100%;
+        .detail-content {
             max-width: 1100px;
-            margin: 2rem 0;
-            transform: translateY(20px);
-            transition: transform 0.4s var(--transition-smooth);
+            margin: 0 auto;
+            padding: 2rem 3rem 4rem;
         }
 
-        .modal.active .modal-content {
-            transform: translateY(0);
+        .back-button {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.75rem 1.25rem;
+            background: transparent;
+            border: 1px solid var(--border);
+            border-radius: 100px;
+            color: var(--text-secondary);
+            font-family: 'Outfit', sans-serif;
+            font-size: 0.8125rem;
+            font-weight: 300;
+            letter-spacing: 0.05em;
+            cursor: pointer;
+            transition: all 0.3s var(--transition-smooth);
+            margin-bottom: 2rem;
         }
 
-        .modal-video {
+        .back-button:hover {
+            border-color: var(--text-primary);
+            color: var(--text-primary);
+        }
+
+        .detail-video {
             width: 100%;
             aspect-ratio: 16/9;
             border-radius: 12px;
             background: var(--bg-card);
         }
 
-        .modal-info {
+        .detail-info {
             display: flex;
             justify-content: space-between;
             align-items: flex-start;
             margin-top: 1.5rem;
-            margin-bottom: 1.5rem;
+            margin-bottom: 2rem;
             gap: 1.5rem;
         }
 
-        .modal-info-left {
+        .detail-info-left {
             flex: 1;
         }
 
-        .modal-title {
+        .detail-title {
             font-family: 'Cormorant Garamond', serif;
-            font-size: 1.75rem;
+            font-size: 2rem;
             font-weight: 400;
-            margin-bottom: 0.5rem;
+            margin-bottom: 0.75rem;
         }
 
-        .modal-description {
+        .detail-description {
             color: var(--text-secondary);
             font-size: 0.9375rem;
             font-weight: 300;
             max-width: 600px;
+            line-height: 1.7;
         }
 
-        .modal-tags {
+        .detail-tags {
             display: flex;
             gap: 0.5rem;
             flex-wrap: wrap;
             flex-shrink: 0;
         }
 
-        .modal-tag {
+        .detail-tag {
             padding: 0.5rem 1rem;
             background: var(--bg-secondary);
             border-radius: 100px;
@@ -411,58 +411,29 @@
             font-weight: 300;
         }
 
-        .modal-gallery {
+        .detail-gallery {
             display: flex;
             flex-wrap: wrap;
             gap: 12px;
         }
 
-        .modal-gallery:empty {
+        .detail-gallery:empty {
             display: none;
         }
 
-        .modal-gallery-item {
+        .detail-gallery-item {
             border-radius: 8px;
             overflow: hidden;
             background: var(--bg-card);
-            cursor: pointer;
-            transition: transform 0.3s var(--transition-smooth);
             flex-shrink: 0;
         }
 
-        .modal-gallery-item:hover {
-            transform: scale(1.02);
-        }
-
-        .modal-gallery-item img,
-        .modal-gallery-item video {
+        .detail-gallery-item img,
+        .detail-gallery-item video {
             display: block;
             max-height: 200px;
             width: auto;
             height: auto;
-        }
-
-        .modal-close {
-            position: absolute;
-            top: -3rem;
-            right: 0;
-            width: 40px;
-            height: 40px;
-            background: transparent;
-            border: 1px solid var(--border);
-            border-radius: 50%;
-            color: var(--text-primary);
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            transition: all 0.3s var(--transition-smooth);
-        }
-
-        .modal-close:hover {
-            background: var(--text-primary);
-            color: var(--bg-primary);
-            border-color: var(--text-primary);
         }
 
         /* Footer */
@@ -634,9 +605,13 @@
                 text-align: center;
             }
 
-            .modal-info {
+            .detail-info {
                 flex-direction: column;
                 gap: 1rem;
+            }
+
+            .detail-content {
+                padding: 1.5rem;
             }
 
             .setup-guide {
@@ -673,7 +648,7 @@
         </section>
     </main>
 
-    <footer>
+    <footer id="mainFooter">
         <div class="footer-content">
             <p class="footer-text">© 2024 Studio. All rights reserved.</p>
             <div class="footer-links">
@@ -684,24 +659,24 @@
         </div>
     </footer>
 
-    <!-- Modal -->
-    <div class="modal" id="videoModal">
-        <div class="modal-backdrop"></div>
-        <div class="modal-content">
-            <button class="modal-close">
-                <svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.5">
-                    <path d="M1 1L13 13M1 13L13 1"/>
+    <!-- Detail Page -->
+    <div class="detail-page" id="detailPage">
+        <div class="detail-content">
+            <button class="back-button" id="backButton">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                    <path d="M19 12H5M12 19l-7-7 7-7"/>
                 </svg>
+                <span>Back</span>
             </button>
-            <video class="modal-video" id="modalVideo" controls></video>
-            <div class="modal-info">
-                <div class="modal-info-left">
-                    <h3 class="modal-title" id="modalTitle"></h3>
-                    <p class="modal-description" id="modalDescription"></p>
+            <video class="detail-video" id="detailVideo" controls></video>
+            <div class="detail-info">
+                <div class="detail-info-left">
+                    <h3 class="detail-title" id="detailTitle"></h3>
+                    <p class="detail-description" id="detailDescription"></p>
                 </div>
-                <div class="modal-tags" id="modalTags"></div>
+                <div class="detail-tags" id="detailTags"></div>
             </div>
-            <div class="modal-gallery" id="modalGallery"></div>
+            <div class="detail-gallery" id="detailGallery"></div>
         </div>
     </div>
 
@@ -723,13 +698,15 @@
         // DOM Elements
         const videoGrid = document.getElementById('videoGrid');
         const filterContainer = document.getElementById('filterContainer');
-        const modal = document.getElementById('videoModal');
-        const modalVideo = document.getElementById('modalVideo');
-        const modalTitle = document.getElementById('modalTitle');
-        const modalDescription = document.getElementById('modalDescription');
-        const modalTags = document.getElementById('modalTags');
-        const modalClose = document.querySelector('.modal-close');
-        const modalBackdrop = document.querySelector('.modal-backdrop');
+        const mainContent = document.querySelector('main');
+        const mainFooter = document.getElementById('mainFooter');
+        const detailPage = document.getElementById('detailPage');
+        const detailVideo = document.getElementById('detailVideo');
+        const detailTitle = document.getElementById('detailTitle');
+        const detailDescription = document.getElementById('detailDescription');
+        const detailTags = document.getElementById('detailTags');
+        const detailGallery = document.getElementById('detailGallery');
+        const backButton = document.getElementById('backButton');
 
         let videos = [];
         let categories = new Set(['all']);
@@ -880,8 +857,8 @@
                     </div>
                 `;
 
-                // クリックでモーダルを開く
-                card.addEventListener('click', () => openModal(video));
+                // クリックで詳細ページを開く
+                card.addEventListener('click', () => showDetailPage(video));
 
                 // サムネイルの遅延読み込みを登録
                 const thumbImg = card.querySelector('.thumbnail');
@@ -995,23 +972,21 @@
             rootMargin: '100px'
         });
 
-        // Modal functions
-        const modalGallery = document.getElementById('modalGallery');
-        
-        function openModal(video) {
-            modalVideo.src = video.video_url;
-            modalTitle.textContent = video.name;
-            modalDescription.textContent = video.description;
-            modalTags.innerHTML = video.tags.map(tag => 
-                `<span class="modal-tag">${tag}</span>`
+        // Detail page functions
+        function showDetailPage(video) {
+            detailVideo.src = video.video_url;
+            detailTitle.textContent = video.name;
+            detailDescription.textContent = video.description;
+            detailTags.innerHTML = video.tags.map(tag => 
+                `<span class="detail-tag">${tag}</span>`
             ).join('');
             
             // ギャラリーを生成
-            modalGallery.innerHTML = '';
+            detailGallery.innerHTML = '';
             if (video.gallery && video.gallery.length > 0) {
                 video.gallery.forEach(item => {
                     const galleryItem = document.createElement('div');
-                    galleryItem.className = 'modal-gallery-item';
+                    galleryItem.className = 'detail-gallery-item';
                     
                     if (item.type === 'video') {
                         galleryItem.innerHTML = `<video src="${item.url}" muted loop playsinline autoplay></video>`;
@@ -1019,33 +994,37 @@
                         galleryItem.innerHTML = `<img src="${item.url}" alt="">`;
                     }
                     
-                    modalGallery.appendChild(galleryItem);
+                    detailGallery.appendChild(galleryItem);
                 });
             }
             
-            modal.classList.add('active');
-            document.body.style.overflow = 'hidden';
-            modalVideo.play().catch(() => {});
+            // ページ切り替え
+            mainContent.style.display = 'none';
+            mainFooter.style.display = 'none';
+            detailPage.classList.add('active');
+            window.scrollTo(0, 0);
         }
 
-        function closeModal() {
-            modal.classList.remove('active');
-            document.body.style.overflow = '';
-            modalVideo.pause();
-            modalVideo.src = '';
+        function hideDetailPage() {
+            detailPage.classList.remove('active');
+            mainContent.style.display = '';
+            mainFooter.style.display = '';
+            detailVideo.pause();
+            detailVideo.src = '';
             
             // ギャラリー内の動画を停止
-            modalGallery.querySelectorAll('video').forEach(vid => {
+            detailGallery.querySelectorAll('video').forEach(vid => {
                 vid.pause();
                 vid.src = '';
             });
-            modalGallery.innerHTML = '';
+            detailGallery.innerHTML = '';
         }
 
-        modalClose.addEventListener('click', closeModal);
-        modalBackdrop.addEventListener('click', closeModal);
+        backButton.addEventListener('click', hideDetailPage);
         document.addEventListener('keydown', (e) => {
-            if (e.key === 'Escape') closeModal();
+            if (e.key === 'Escape' && detailPage.classList.contains('active')) {
+                hideDetailPage();
+            }
         });
 
         // Initialize
