@@ -223,15 +223,17 @@
             display: none;
         }
 
-        .video-card .thumbnail {
+        .video-card .thumbnail,
+        .video-card .preview-video {
             width: 100%;
             height: 100%;
             object-fit: cover;
-            transition: transform 0.4s var(--transition-smooth);
         }
 
-        .video-card:hover .thumbnail {
-            transform: scale(1.03);
+        .video-card .preview-video {
+            position: absolute;
+            top: 0;
+            left: 0;
         }
 
         .video-card-info {
@@ -849,7 +851,7 @@
                 
                 card.innerHTML = `
                     <div class="main-media">
-                        <img data-src="${video.thumbnail || ''}" class="thumbnail" alt="${video.name}" src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 9'%3E%3Crect fill='%23f2f2f2' width='16' height='9'/%3E%3C/svg%3E">
+                        <video class="preview-video" data-src="${video.video_url}" muted loop playsinline preload="none"></video>
                     </div>
                     <div class="video-card-info">
                         <h3 class="video-card-title">${video.name}</h3>
@@ -860,10 +862,10 @@
                 // クリックで詳細ページを開く
                 card.addEventListener('click', () => showDetailPage(video));
 
-                // サムネイルの遅延読み込みを登録
-                const thumbImg = card.querySelector('.thumbnail');
-                if (thumbImg && video.thumbnail) {
-                    imageObserver.observe(thumbImg);
+                // 動画の遅延読み込みを登録
+                const previewVideo = card.querySelector('.preview-video');
+                if (previewVideo) {
+                    videoObserver.observe(previewVideo);
                 }
 
                 videoGrid.appendChild(card);
@@ -970,6 +972,27 @@
             });
         }, {
             rootMargin: '100px'
+        });
+
+        // Intersection Observer for lazy loading and auto-playing videos
+        const videoObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                const video = entry.target;
+                if (entry.isIntersecting) {
+                    // 動画を読み込み・再生
+                    if (video.dataset.src) {
+                        video.src = video.dataset.src;
+                        video.removeAttribute('data-src');
+                    }
+                    video.play().catch(() => {});
+                } else {
+                    // 画面外では一時停止
+                    video.pause();
+                }
+            });
+        }, {
+            rootMargin: '50px',
+            threshold: 0.25
         });
 
         // Detail page functions
